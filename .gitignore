@@ -1,0 +1,52 @@
+# Operating system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor and IDE state
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Static site and frontend build output
+dist/
+build/
+out/
+.vite/
+.parcel-cache/
+.turbo/
+.cache/
+.sass-cache/
+coverage/
+
+# GitHub Pages / Jekyll local artifacts
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Deployment tool state
+.vercel/
+.netlify/
