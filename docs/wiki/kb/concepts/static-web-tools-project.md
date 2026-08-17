@@ -1,3 +1,8 @@
+---
+updated: 2026-08-17
+tags: [static-site, github-pages, browser-tools]
+---
+
 # 정적 웹 도구 프로젝트
 
 ## 개요
@@ -30,10 +35,9 @@
 
 - [LLM 위키 개념](../../about.md)
 
-## Sources
+## 출처
 
 - 제목: 사용자 요청 - 정적 웹 도구 프로젝트 방향성 기록
 - 작성자: User
-- 발행일: 2026-05-22
-- URL: N/A
-- 수집일: 2026-05-22
+- 확정일: 2026-05-22
+- 저장소 경로: `docs/wiki/kb/concepts/static-web-tools-project.md`

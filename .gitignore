@@ -31,6 +31,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local planning and verification artifacts
+.plan-review/
+test-results/
+
 # Static site and frontend build output
 dist/
 build/
