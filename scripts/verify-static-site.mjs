@@ -7,6 +7,7 @@ const ignoredDirectories = new Set([
   '.serena',
   'docs',
   'node_modules',
+  'private',
 ]);
 
 async function findHtmlFiles(directory) {
@@ -21,9 +22,7 @@ async function findHtmlFiles(directory) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.endsWith('.html')) {
-      files.push(join(directory, entry.name));
-    }
+    if (entry.isFile() && entry.name.endsWith('.html')) files.push(join(directory, entry.name));
   }
 
   return files;
@@ -38,8 +37,8 @@ if (!htmlFiles.some((file) => relative(process.cwd(), file) === 'index.html')) {
 
 for (const file of htmlFiles) {
   const content = await readFile(file, 'utf8');
-  const path = relative(process.cwd(), file);
-  const requiredPatterns = [
+  const filePath = relative(process.cwd(), file);
+  const requirements = [
     ['a doctype declaration', /<!doctype html>/i],
     ['an html lang attribute', /<html\b[^>]*\blang\s*=\s*["'][^"']+["']/i],
     ['a charset declaration', /<meta\b[^>]*\bcharset\s*=\s*["']?utf-8/i],
@@ -48,21 +47,19 @@ for (const file of htmlFiles) {
     ['a main landmark', /<main\b/i],
   ];
 
-  for (const [description, pattern] of requiredPatterns) {
-    if (!pattern.test(content)) {
-      errors.push(`${path}: missing ${description}`);
-    }
+  for (const [description, pattern] of requirements) {
+    if (!pattern.test(content)) errors.push(`${filePath}: missing ${description}`);
   }
 
   for (const image of content.matchAll(/<img\b[^>]*>/gi)) {
     if (!/\balt\s*=\s*["'][^"']*["']/i.test(image[0])) {
-      errors.push(`${path}: every img element needs an alt attribute`);
+      errors.push(`${filePath}: every img element needs an alt attribute`);
     }
   }
 
   for (const link of content.matchAll(/<a\b[^>]*>/gi)) {
     if (/\btarget\s*=\s*["']_blank["']/i.test(link[0]) && !/\brel\s*=\s*["'][^"']*\bnoopener\b/i.test(link[0])) {
-      errors.push(`${path}: target=_blank links need rel=noopener`);
+      errors.push(`${filePath}: target=_blank links need rel=noopener`);
     }
   }
 }
