@@ -31,6 +31,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Local planning and verification artifacts
+.plan-review/
+test-results/
+
+# Private itinerary source material: never commit plaintext travel data or secrets.
+private/
+
 # Static site and frontend build output
 dist/
 build/

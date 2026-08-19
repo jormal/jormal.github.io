@@ -1,3 +1,8 @@
+---
+updated: 2026-08-20
+tags: [static-site, github-pages, browser-tools]
+---
+
 # 정적 웹 도구 프로젝트
 
 ## 개요
@@ -20,6 +25,12 @@
 - 외부 서비스나 네트워크 의존성이 필요한 경우에는 해당 의존성과 실패 시 동작을 명확히 한다.
 - 사용자 데이터가 브라우저 안에서 처리되는 도구는 저장 위치, 보존 범위, 개인정보 노출 가능성을 명확히 설계한다.
 
+## 배포와 비공개 원본
+
+- `main` 푸시와 수동 실행 시 `.github/workflows/deploy-pages.yml`이 정적 사이트 검증 뒤 GitHub Pages에 배포한다.
+- GitHub Pages 설정의 게시 원본은 `GitHub Actions`로 선택해야 한다.
+- `private/`는 Git에서 제외하며, 평문 계획 원본처럼 배포하면 안 되는 파일을 둔다. 정적 사이트 검증도 이 디렉터리를 검사하지 않는다.
+
 ## 영향 범위
 
 - 새 기능은 정적 웹 페이지에서 접근 가능한 도구 형태로 설계한다.
@@ -30,10 +41,13 @@
 
 - [LLM 위키 개념](../../about.md)
 
-## Sources
+## 출처
 
 - 제목: 사용자 요청 - 정적 웹 도구 프로젝트 방향성 기록
 - 작성자: User
-- 발행일: 2026-05-22
-- URL: N/A
-- 수집일: 2026-05-22
+- 확정일: 2026-05-22
+- 저장소 경로: `docs/wiki/kb/concepts/static-web-tools-project.md`
+- 제목: GitHub Pages 배포 워크플로
+- 작성자: Codex
+- 확정일: 2026-08-20
+- 저장소 경로: `.github/workflows/deploy-pages.yml`
