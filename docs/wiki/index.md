@@ -8,6 +8,6 @@
 ## 엔티티
 
 - [여러 계획을 분리하는 정보 구조](kb/entities/plan-index-structure.md) - `info/plan/` 인덱스와 계획별 하위 경로를 분리해 공개 초안과 비공개 상세 정보가 섞이지 않게 하는 규칙이다.
-- [암호화된 일정 데이터 발행 방식](kb/entities/encrypted-itinerary-payload.md) - 비추적 평문을 AES-GCM 암호문으로 발행하고 브라우저에서 비밀 구문으로만 여는 흐름을 정의한다.
+- [암호화된 일정 데이터 발행 방식](kb/entities/encrypted-itinerary-payload.md) - 비추적 HTML·Markdown 원본을 AES-GCM 암호문으로 발행하고 브라우저에서 비밀 구문으로만 여는 흐름을 정의한다.
 
 ## 결정

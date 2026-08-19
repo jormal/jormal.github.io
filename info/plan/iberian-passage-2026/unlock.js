@@ -54,6 +54,114 @@ function isTableDivider(line) {
   return /^\s*\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
 }
 
+function appendSafeLink(container, link) {
+  if (!link?.label || !/^https:\/\//.test(link.url ?? '')) return;
+
+  const anchor = document.createElement('a');
+  anchor.href = link.url;
+  anchor.target = '_blank';
+  anchor.rel = 'noopener noreferrer';
+  anchor.textContent = link.label;
+  container.append(anchor);
+}
+
+function renderItinerary(itinerary) {
+  const section = document.createElement('section');
+  section.className = 'protected-itinerary';
+
+  const title = document.createElement('h2');
+  title.textContent = itinerary.title ?? '세부 일정';
+  section.append(title);
+
+  for (const day of itinerary.days ?? []) {
+    const article = document.createElement('article');
+    const heading = document.createElement('h3');
+    heading.textContent = `Day ${day.day} · ${day.date} · ${day.location}`;
+    article.append(heading);
+
+    const stay = document.createElement('p');
+    stay.textContent = `숙박: ${day.stay}`;
+    article.append(stay);
+
+    const table = document.createElement('table');
+    const head = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    for (const label of ['시간', '항목', '일정', '링크·확인']) {
+      const cell = document.createElement('th');
+      cell.textContent = label;
+      headRow.append(cell);
+    }
+    head.append(headRow);
+    table.append(head);
+
+    const body = document.createElement('tbody');
+    for (const entry of day.entries ?? []) {
+      const row = document.createElement('tr');
+      for (const value of [entry.time, entry.category, entry.plan]) {
+        const cell = document.createElement('td');
+        cell.textContent = value ?? '';
+        row.append(cell);
+      }
+
+      const links = document.createElement('td');
+      const items = [...(entry.links ?? [])];
+      if (entry.note) items.push({ label: entry.note });
+      items.forEach((item, index) => {
+        if (index > 0) links.append(document.createTextNode(' · '));
+        if (item.url) appendSafeLink(links, item);
+        else links.append(document.createTextNode(item.label));
+      });
+      row.append(links);
+      body.append(row);
+    }
+    table.append(body);
+    article.append(table);
+    section.append(article);
+  }
+
+  return section;
+}
+
+function renderHtml(html) {
+  const allowedTags = new Set(['A', 'ARTICLE', 'BLOCKQUOTE', 'BR', 'EM', 'H1', 'H2', 'H3', 'LI', 'OL', 'P', 'SECTION', 'SMALL', 'STRONG', 'TABLE', 'TBODY', 'TD', 'TH', 'THEAD', 'TR', 'UL']);
+  const parsed = new DOMParser().parseFromString(html, 'text/html');
+
+  function sanitize(node) {
+    if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.textContent ?? '');
+    if (node.nodeType !== Node.ELEMENT_NODE) return document.createDocumentFragment();
+
+    if (!allowedTags.has(node.tagName)) {
+      const fragment = document.createDocumentFragment();
+      for (const child of node.childNodes) fragment.append(sanitize(child));
+      return fragment;
+    }
+
+    const element = document.createElement(node.tagName.toLowerCase());
+    if (node.tagName === 'A') {
+      const href = node.getAttribute('href') ?? '';
+      if (/^https:\/\//.test(href)) {
+        element.href = href;
+        element.target = '_blank';
+        element.rel = 'noopener noreferrer';
+      }
+    }
+    if (node.tagName === 'TD' || node.tagName === 'TH') {
+      for (const attribute of ['colspan', 'rowspan']) {
+        const value = node.getAttribute(attribute);
+        if (/^[1-9]\d?$/.test(value ?? '')) element.setAttribute(attribute, value);
+      }
+    }
+    if (node.tagName === 'TH' && node.getAttribute('scope') === 'row') element.scope = 'row';
+
+    for (const child of node.childNodes) element.append(sanitize(child));
+    return element;
+  }
+
+  const fragment = document.createDocumentFragment();
+  for (const child of parsed.body.childNodes) fragment.append(sanitize(child));
+  return fragment;
+}
+
 function renderMarkdown(markdown) {
   const fragment = document.createDocumentFragment();
   const lines = markdown.replace(/\r\n/g, '\n').split('\n');
@@ -62,6 +170,25 @@ function renderMarkdown(markdown) {
   while (index < lines.length) {
     const line = lines[index];
     if (!line.trim()) { index += 1; continue; }
+
+    if (line.trim() === ':::itinerary') {
+      const payloadLines = [];
+      index += 1;
+      while (index < lines.length && lines[index].trim() !== ':::') {
+        payloadLines.push(lines[index]);
+        index += 1;
+      }
+      if (lines[index]?.trim() === ':::') index += 1;
+
+      try {
+        fragment.append(renderItinerary(JSON.parse(payloadLines.join('\n'))));
+      } catch {
+        const message = document.createElement('p');
+        message.textContent = '세부 일정을 표시할 수 없습니다.';
+        fragment.append(message);
+      }
+      continue;
+    }
 
     const heading = /^(#{1,3})\s+(.+)$/.exec(line);
     if (heading) {
@@ -174,7 +301,8 @@ form?.addEventListener('submit', async (event) => {
     const payload = await loadPayload();
     const plaintext = await decryptPayload(payload, passphrase);
 
-    protectedContent.replaceChildren(renderMarkdown(plaintext));
+    const content = plaintext.trimStart().startsWith('<') ? renderHtml(plaintext) : renderMarkdown(plaintext);
+    protectedContent.replaceChildren(content);
     protectedContent.hidden = false;
     status.textContent = '보호된 계획을 열었습니다. 이 브라우저에 비밀 구문을 저장하지 않습니다.';
   } catch {

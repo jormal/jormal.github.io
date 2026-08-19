@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-17
+updated: 2026-08-20
 tags: [web-crypto, encrypted-itinerary, private-itinerary]
 ---
 
@@ -13,14 +13,16 @@ tags: [web-crypto, encrypted-itinerary, private-itinerary]
 ## 데이터 흐름
 
 ```text
-private/{plan}.md (Git 비추적 평문)
+private/{plan}.html 또는 private/{plan}.md (Git 비추적 평문)
   → scripts/encrypt-itinerary.mjs (로컬 비밀 구문 입력)
   → info/plan/{plan-slug}/data.enc.json (배포 가능한 암호문)
   → unlock.js (브라우저 메모리 복호화)
 ```
 
 암호문은 PBKDF2-SHA-256으로 비밀 구문에서 키를 파생하고, 매번 새 salt와 IV를 생성해 AES-GCM으로
-만든다. 암호문에는 알고리즘 식별자, 반복 횟수, salt, IV, ciphertext만 들어간다.
+만든다. 암호문에는 알고리즘 식별자, 반복 횟수, salt, IV, ciphertext만 들어간다. HTML 원본은 정해진
+태그·속성만 브라우저에서 안전하게 렌더링하므로, 표의 `rowspan`과 `colspan`으로 일정의 공통 날짜·도시·숙박을
+한 번만 표시할 수 있다. 기존 Markdown 원본은 호환용으로 계속 열 수 있다.
 
 ## 운영 규칙
 
