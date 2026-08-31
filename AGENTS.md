@@ -58,6 +58,15 @@ requirement unless the user explicitly asks for it.
 - Record durable project knowledge in `docs/wiki/kb/` and update its index and log under
   the rules in [docs/wiki/README.md](docs/wiki/README.md).
 
+## Itinerary Candidate Records
+
+- Record every user-supplied restaurant and tour candidate incrementally in itinerary
+  data.
+- Do not delete a candidate merely because it is not selected for the active schedule;
+  retain it and update its status instead.
+- Interpret a request to remove a restaurant or tour as removing it from the active
+  schedule only, unless the user explicitly requests deletion from the candidate record.
+
 ## Git and Collaboration
 
 - Never run `git commit` unless the user explicitly asks for a commit in that turn.
