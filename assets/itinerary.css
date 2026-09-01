@@ -197,9 +197,11 @@ a { color: inherit; text-underline-offset: 0.2em; }
 .unlock-controls input { background: transparent; flex: 1; min-width: 0; padding: .45rem .7rem; }
 .unlock-controls button { background: var(--ink); color: var(--paper); cursor: pointer; padding: .45rem .9rem; }
 .unlock-status { color: var(--muted); font-size: .82rem; line-height: 1.5; }
-.protected-actions { margin: 2rem 0 -1rem; }
-.protected-actions button { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; color: var(--ink); cursor: pointer; font: inherit; font-size: .85rem; font-weight: 700; min-height: 2.8rem; padding: .45rem .9rem; }
-.protected-actions button:hover,.protected-actions button:focus-visible { background: var(--ink); color: var(--paper); }
+.protected-export-actions { align-items: center; display: flex; flex-wrap: wrap; gap: .55rem; margin: 1.5rem 0 -.45rem; }
+.protected-export-actions p { color: var(--muted); font-size: .78rem; font-weight: 700; letter-spacing: .04em; margin: 0 .2rem 0 0; }
+.protected-export-actions-grid { border-top: 1px solid var(--line); margin-top: 2rem; padding-top: 1rem; }
+.protected-export-button { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; color: var(--ink); cursor: pointer; font: inherit; font-size: .82rem; font-weight: 700; min-height: 2.55rem; padding: .4rem .75rem; }
+.protected-export-button:hover,.protected-export-button:focus-visible { background: var(--ink); color: var(--paper); }
 .protected-content { background: var(--paper-deep); margin: 2rem 0 0; padding: clamp(1.25rem, 4vw, 2.5rem); }
 .protected-content > :first-child { margin-top: 0; }
 .protected-content h2,.protected-content h3,.protected-content h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -.04em; line-height: 1.05; }
@@ -211,6 +213,10 @@ a { color: inherit; text-underline-offset: 0.2em; }
 .protected-content ul,.protected-content ol { margin: 1rem 0; padding-left: 1.3rem; }
 .protected-content blockquote { border-left: 2px solid var(--accent); color: var(--muted); margin: 1.5rem 0; padding-left: 1rem; }
 .protected-content blockquote p { margin: 0; }
+.protected-city-notes { border-left: 2px solid var(--accent); margin: 1rem 0 2.25rem; padding-left: 1rem; }
+.protected-city-notes h4 { font-family: var(--sans); font-size: .76rem; font-weight: 800; letter-spacing: .06em; margin: 0; text-transform: uppercase; }
+.protected-city-notes ul { margin: .55rem 0 0; }
+.protected-city-notes li { font-size: .86rem; }
 .protected-table-scroll { -webkit-overflow-scrolling: touch; margin: 1.25rem 0 2rem; max-width: 100%; overflow-x: auto; width: 100%; }
 .protected-content table { border-collapse: collapse; font-size: .84rem; line-height: 1.5; margin: 0; min-width: 100%; table-layout: auto; width: max-content; }
 .protected-content th,.protected-content td { border-bottom: 1px solid var(--line); padding: .75rem .65rem; text-align: left; vertical-align: top; }

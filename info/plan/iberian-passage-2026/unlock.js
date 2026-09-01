@@ -5,8 +5,6 @@ const passphraseInput = document.querySelector('#passphrase');
 const submitButton = document.querySelector('#unlock-submit');
 const status = document.querySelector('#unlock-status');
 const protectedContent = document.querySelector('#protected-content');
-const protectedActions = document.querySelector('#protected-actions');
-const exportScheduleButton = document.querySelector('#export-schedule');
 
 async function loadPayload() {
   const response = await fetch('./data.enc.json', { cache: 'no-store' });
@@ -138,13 +136,6 @@ function prepareTables(fragment) {
   return fragment;
 }
 
-function scheduleTable() {
-  return [...protectedContent.querySelectorAll('.schedule-table')].find((table) => {
-    const headers = [...table.querySelectorAll('thead th')].map((header) => header.textContent?.trim());
-    return headers.includes('Day') && headers.includes('도시·숙박') && headers.includes('항목');
-  }) ?? protectedContent.querySelector('.schedule-table');
-}
-
 function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
@@ -154,25 +145,43 @@ function downloadBlob(blob, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-async function exportScheduleImage() {
-  const table = scheduleTable();
-  if (!table) return;
-
-  const width = Math.ceil(table.scrollWidth);
-  const height = Math.ceil(table.scrollHeight);
-  const tableRect = table.getBoundingClientRect();
-  const escapeXml = (value) => value.replace(/[<>&'"]/g, (character) => ({
+function escapeXml(value) {
+  return value.replace(/[<>&'"]/g, (character) => ({
     '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;',
   }[character]));
-  const cells = [...table.querySelectorAll('th, td')].map((cell) => {
+}
+
+function safeFilename(value) {
+  return value.replace(/[^a-z0-9가-힣]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 80) || 'itinerary';
+}
+
+async function exportTableImage(table, title, filename, body = null) {
+  const cells = [
+    ...table.querySelectorAll('thead th'),
+    ...(body ? [...body.querySelectorAll('th, td')] : [...table.querySelectorAll('tbody th, tbody td')]),
+  ];
+  if (!cells.length) return;
+
+  const bounds = cells.reduce((result, cell) => {
+    const rect = cell.getBoundingClientRect();
+    return {
+      left: Math.min(result.left, rect.left),
+      top: Math.min(result.top, rect.top),
+      right: Math.max(result.right, rect.right),
+      bottom: Math.max(result.bottom, rect.bottom),
+    };
+  }, { left: Infinity, top: Infinity, right: -Infinity, bottom: -Infinity });
+  const width = Math.ceil(bounds.right - bounds.left);
+  const height = Math.ceil(bounds.bottom - bounds.top);
+  const content = cells.map((cell) => {
     const cellRect = cell.getBoundingClientRect();
-    const x = Math.round(cellRect.left - tableRect.left + 32);
-    const y = Math.round(cellRect.top - tableRect.top + 72);
+    const x = Math.round(cellRect.left - bounds.left + 32);
+    const y = Math.round(cellRect.top - bounds.top + 72);
     const text = (cell.innerText || cell.textContent || '').replace(/\s*\n\s*/g, ' · ').trim();
     const header = cell.tagName === 'TH';
     return `<rect x="${x}" y="${y}" width="${Math.round(cellRect.width)}" height="${Math.round(cellRect.height)}" fill="${header ? '#e4e7df' : '#f7f7f1'}" stroke="#c8ccc3" /><text x="${x + 9}" y="${y + 20}" fill="${header ? '#59645b' : '#263027'}" font-family="Arial, sans-serif" font-size="${header ? 11 : 14}" font-weight="${header ? 700 : 400}">${escapeXml(text)}</text>`;
   }).join('');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width + 64}" height="${height + 104}" viewBox="0 0 ${width + 64} ${height + 104}"><rect width="100%" height="100%" fill="#ecebe3" /><text x="32" y="36" fill="#263027" font-family="Arial, sans-serif" font-size="22" font-weight="700">16일 세부 일정</text>${cells}</svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width + 64}" height="${height + 104}" viewBox="0 0 ${width + 64} ${height + 104}"><rect width="100%" height="100%" fill="#ecebe3" /><text x="32" y="36" fill="#263027" font-family="Arial, sans-serif" font-size="22" font-weight="700">${escapeXml(title)}</text>${content}</svg>`;
   const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
 
   try {
@@ -190,9 +199,262 @@ async function exportScheduleImage() {
     URL.revokeObjectURL(url);
     const png = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
     if (!png) throw new Error('PNG export failed.');
-    downloadBlob(png, 'iberian-passage-2026-schedule.png');
+    downloadBlob(png, `${safeFilename(filename)}.png`);
   } catch {
-    downloadBlob(svgBlob, 'iberian-passage-2026-schedule.svg');
+    downloadBlob(svgBlob, `${safeFilename(filename)}.svg`);
+  }
+}
+
+function tableAfter(heading) {
+  let element = heading.nextElementSibling;
+  while (element && !/^H[1-3]$/.test(element.tagName)) {
+    const table = element.matches('.protected-table-scroll') ? element.querySelector('table') : null;
+    if (table) return table;
+    element = element.nextElementSibling;
+  }
+  return null;
+}
+
+function addExportButton(container, label, onClick) {
+  const button = document.createElement('button');
+  button.className = 'protected-export-button';
+  button.type = 'button';
+  button.textContent = label;
+  button.addEventListener('click', onClick);
+  container.append(button);
+}
+
+function addTableExport(table, label, title, filename, body = null) {
+  const actions = document.createElement('div');
+  actions.className = 'protected-export-actions';
+  addExportButton(actions, label, () => exportTableImage(table, title, filename, body));
+  table.closest('.protected-table-scroll')?.before(actions);
+}
+
+function putDetailAfterSummary(root) {
+  const summaryHeading = [...root.querySelectorAll('h2')].find((heading) => heading.textContent?.startsWith('1.'));
+  const detailHeading = [...root.querySelectorAll('h2')].find((heading) => heading.textContent?.startsWith('2.'));
+  const summaryTable = summaryHeading && tableAfter(summaryHeading);
+  const detailTable = detailHeading && tableAfter(detailHeading);
+  const detailWrapper = detailTable?.closest('.protected-table-scroll');
+  if (summaryTable && detailHeading && detailWrapper) summaryTable.closest('.protected-table-scroll')?.after(detailHeading, detailWrapper);
+}
+
+function headingWithText(root, text) {
+  return [...root.querySelectorAll('h2, h3')].find((heading) => heading.textContent?.trim() === text);
+}
+
+function collectBlock(heading, stopAt = null) {
+  const nodes = [heading];
+  let node = heading.nextSibling;
+  while (node) {
+    if (node.nodeType === Node.ELEMENT_NODE && /^H[1-3]$/.test(node.tagName)) {
+      if (!stopAt || stopAt(node)) break;
+      if (node.tagName !== 'H3') break;
+    }
+    nodes.push(node);
+    node = node.nextSibling;
+  }
+  return nodes;
+}
+
+function moveBlockAfter(heading, target, stopAt = null) {
+  if (!heading || !target) return target;
+  const nodes = collectBlock(heading, stopAt);
+  target.after(...nodes);
+  return nodes.at(-1) ?? target;
+}
+
+function moveBlockBefore(heading, target, stopAt = null) {
+  if (!heading || !target) return;
+  target.before(...collectBlock(heading, stopAt));
+}
+
+function organizeSupportingSections(root) {
+  const detail = [...root.querySelectorAll('h2')].find((heading) => heading.textContent?.startsWith('2.'));
+  const detailWrapper = detail && tableAfter(detail)?.closest('.protected-table-scroll');
+  let detailAnchor = detailWrapper;
+  for (const label of ['숙소·짐 보관 운영', '2인 예산 초안 — 국제선 항공권 제외', '추가 확인 목록']) {
+    detailAnchor = moveBlockAfter(headingWithText(root, label), detailAnchor);
+  }
+
+  const tours = [...root.querySelectorAll('h2')].find((heading) => heading.textContent?.startsWith('4.'));
+  moveBlockBefore(headingWithText(root, '이동거리·시간 가정'), tours);
+  moveBlockBefore(
+    headingWithText(root, '지상 이동 3안'),
+    tours,
+    (heading) => heading.textContent?.trim() === '참고 링크',
+  );
+}
+
+function splitDetailSchedule(table) {
+  const wrapper = table.closest('.protected-table-scroll');
+  if (!wrapper || table.tBodies.length === 0) return [];
+
+  const fragment = document.createDocumentFragment();
+  const details = [];
+  [...table.tBodies].forEach((body, index) => {
+    const firstRow = body.rows[0];
+    const cells = [...(firstRow?.cells ?? [])];
+    const day = firstRow?.querySelector('th')?.textContent?.trim() || String(index + 1);
+    const date = cells.find((cell) => cell.tagName === 'TD')?.textContent?.trim() || '';
+    const city = (cells.filter((cell) => cell.tagName === 'TD')[1]?.innerText ?? '').replace(/\s*\n\s*/g, ' · ').trim();
+    const heading = document.createElement('h3');
+    heading.textContent = `Day ${day}${date ? ` · ${date}` : ''}${city ? ` · ${city}` : ''}`;
+    const dayTable = table.cloneNode(false);
+    dayTable.append(table.tHead.cloneNode(true), body.cloneNode(true));
+    const dayWrapper = document.createElement('div');
+    dayWrapper.className = 'protected-table-scroll';
+    dayWrapper.append(dayTable);
+    fragment.append(heading, dayWrapper);
+    details.push({ day, table: dayTable, title: heading.textContent });
+  });
+  wrapper.replaceWith(fragment);
+  return details;
+}
+
+function splitCityList(heading) {
+  const table = tableAfter(heading);
+  const wrapper = table?.closest('.protected-table-scroll');
+  const headers = table ? [...table.querySelectorAll('thead th')].map((cell) => cell.textContent?.trim()) : [];
+  if (!table || !wrapper || headers[0] !== '도시') return;
+
+  const groups = new Map();
+  for (const row of table.querySelectorAll('tbody tr')) {
+    const city = row.cells[0]?.textContent?.trim();
+    if (!city) continue;
+    if (!groups.has(city)) groups.set(city, []);
+    groups.get(city).push(row);
+  }
+
+  const fragment = document.createDocumentFragment();
+  for (const [city, rows] of [...groups].sort(([left], [right]) => cityPosition(left) - cityPosition(right))) {
+    const cityHeading = document.createElement('h3');
+    cityHeading.textContent = city;
+    const cityTable = table.cloneNode(false);
+    const head = table.tHead.cloneNode(true);
+    for (const row of head.rows) row.cells[0]?.remove();
+    const body = document.createElement('tbody');
+    for (const row of rows) {
+      const clone = row.cloneNode(true);
+      clone.cells[0]?.remove();
+      body.append(clone);
+    }
+    cityTable.append(head, body);
+    const cityWrapper = document.createElement('div');
+    cityWrapper.className = 'protected-table-scroll';
+    cityWrapper.append(cityTable);
+    fragment.append(cityHeading, cityWrapper);
+  }
+  wrapper.replaceWith(fragment);
+}
+
+function cityPosition(city) {
+  const order = ['Madrid', 'Porto', 'Lisbon', 'Sevilla', 'Granada', 'Barcelona'];
+  const position = order.findIndex((name) => city.includes(name));
+  return position === -1 ? order.length : position;
+}
+
+function orderCityTables(heading) {
+  const cityBlocks = [];
+  let element = heading.nextElementSibling;
+  while (element && element.tagName !== 'H2') {
+    if (element.tagName !== 'H3' || cityPosition(element.textContent ?? '') === 6) {
+      element = element.nextElementSibling;
+      continue;
+    }
+    const nodes = collectBlock(element);
+    cityBlocks.push({ city: element.textContent ?? '', nodes });
+    element = nodes.at(-1)?.nextElementSibling ?? null;
+  }
+  if (!cityBlocks.length) return;
+  heading.after(...cityBlocks.sort((left, right) => cityPosition(left.city) - cityPosition(right.city)).flatMap((block) => block.nodes));
+}
+
+function cityTableEntries(heading) {
+  const entries = [];
+  let element = heading.nextElementSibling;
+  while (element && element.tagName !== 'H2') {
+    if (element.tagName === 'H3') {
+      if (cityPosition(element.textContent ?? '') === 6) break;
+      const table = tableAfter(element);
+      if (table) entries.push({ city: element.textContent?.trim() ?? '', table });
+    }
+    element = element.nextElementSibling;
+  }
+  return entries;
+}
+
+function moveMemoRowsOutside(heading, nameHeader) {
+  for (const { city, table } of cityTableEntries(heading)) {
+    const headers = [...table.querySelectorAll('thead th')].map((cell) => cell.textContent?.trim());
+    const nameIndex = headers.indexOf(nameHeader);
+    const remarkIndex = headers.indexOf('비고');
+    if (nameIndex === -1 || remarkIndex === -1) continue;
+
+    const notes = [];
+    for (const row of [...table.querySelectorAll('tbody tr')]) {
+      const name = row.cells[nameIndex]?.textContent?.trim();
+      const remark = row.cells[remarkIndex]?.textContent?.trim();
+      if (!name?.includes('메모')) continue;
+      if (remark && remark !== '—') notes.push({ name, remark });
+      row.remove();
+    }
+    if (!notes.length) continue;
+
+    const section = document.createElement('section');
+    section.className = 'protected-city-notes';
+    const title = document.createElement('h4');
+    title.textContent = `${city} 공통 메모`;
+    const list = document.createElement('ul');
+    for (const { remark } of notes) {
+      const bullets = remark.split(/(?<=[.!?])\s+/u).filter(Boolean);
+      for (const bullet of bullets) {
+        const item = document.createElement('li');
+        item.textContent = bullet;
+        list.append(item);
+      }
+    }
+    section.append(title, list);
+    table.closest('.protected-table-scroll')?.after(section);
+  }
+}
+
+function addProtectedExports() {
+  const root = protectedContent.querySelector('section') ?? protectedContent;
+  putDetailAfterSummary(root);
+  organizeSupportingSections(root);
+  const headings = [...root.querySelectorAll('h2')];
+  const summary = headings.find((heading) => heading.textContent?.startsWith('1.'));
+  const detail = headings.find((heading) => heading.textContent?.startsWith('2.'));
+  const transport = headings.find((heading) => heading.textContent?.startsWith('3.'));
+  const restaurant = headings.find((heading) => heading.textContent?.startsWith('5.'));
+  const attractions = headings.find((heading) => heading.textContent?.startsWith('6.'));
+  const summaryTable = summary && tableAfter(summary);
+  const detailTable = detail && tableAfter(detail);
+
+  if (summaryTable) addTableExport(summaryTable, '16일 요약 이미지 저장', '16일 요약 일정', 'iberian-passage-2026-summary');
+  if (detailTable) {
+    splitDetailSchedule(detailTable).forEach(({ day, table, title }) => {
+      addTableExport(table, `Day ${day} 이미지 저장`, title, `iberian-passage-2026-day-${day}`);
+    });
+  }
+  if (restaurant) {
+    splitCityList(restaurant);
+    orderCityTables(restaurant);
+    moveMemoRowsOutside(restaurant, '식당');
+  }
+  if (attractions) orderCityTables(attractions);
+
+  if (transport) {
+    let element = transport.nextElementSibling;
+    while (element && element.tagName !== 'H2') {
+      if (element.tagName === 'H3') {
+        const table = tableAfter(element);
+        if (table) addTableExport(table, '이동 시간표 이미지 저장', element.textContent ?? '이동 시간표', `iberian-passage-2026-${element.textContent ?? 'transport'}`);
+      }
+      element = element.nextElementSibling;
+    }
   }
 }
 
@@ -371,7 +633,6 @@ form?.addEventListener('submit', async (event) => {
   submitButton.disabled = true;
   status.textContent = '보호된 계획을 여는 중입니다…';
   protectedContent.hidden = true;
-  protectedActions.hidden = true;
 
   try {
     const payload = await loadPayload();
@@ -379,8 +640,8 @@ form?.addEventListener('submit', async (event) => {
 
     const content = plaintext.trimStart().startsWith('<') ? renderHtml(plaintext) : renderMarkdown(plaintext);
     protectedContent.replaceChildren(content);
+    addProtectedExports();
     protectedContent.hidden = false;
-    protectedActions.hidden = !scheduleTable();
     status.textContent = '보호된 계획을 열었습니다. 이 브라우저에 비밀 구문을 저장하지 않습니다.';
   } catch {
     status.textContent = '비밀 구문이 맞지 않거나, 보호된 계획이 아직 준비되지 않았습니다.';
@@ -389,5 +650,3 @@ form?.addEventListener('submit', async (event) => {
     submitButton.disabled = false;
   }
 });
-
-exportScheduleButton?.addEventListener('click', exportScheduleImage);
