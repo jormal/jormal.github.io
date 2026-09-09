@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-17
+updated: 2026-09-09
 tags: [private-itinerary, static-site, travel-planning, web-crypto]
 ---
 
@@ -57,6 +57,8 @@ tags: [private-itinerary, static-site, travel-planning, web-crypto]
 ## 관련 페이지
 
 - [정적 웹 도구 프로젝트](static-web-tools-project.md)
+
+관련 조사 운영은 [숙소 조사 원문 요약과 후기 균형](stay-research-evidence.md)을 따른다.
 
 ## 출처
 

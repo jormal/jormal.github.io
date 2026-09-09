@@ -2,6 +2,8 @@
 
 ## 개념
 
+- [숙소 조사 원문 요약과 후기 균형](kb/concepts/stay-research-evidence.md) - 한국·외국 후기 균형, 원문 재열람, 현재·보관 JSON 역할과 문서 집계·후보 매핑 검증을 기록한다.
+
 - [정적 웹 도구 프로젝트](kb/concepts/static-web-tools-project.md) - GitHub Pages 배포와 비공개 원본 제외 원칙을 포함한 정적 웹 프로젝트 방향성을 정리한다.
 - [비공개 여행 일정의 단계적 구체화](kb/concepts/private-itinerary-planning.md) - 공개 가능한 여정 초안과 암호화된 상세 일정을 분리하고, 취향 질문으로 여행을 구체화하는 방법을 정의한다.
 
