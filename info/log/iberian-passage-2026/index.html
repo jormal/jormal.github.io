@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="description" content="스페인·포르투갈 15박 16일 여행의 날짜별 기록과 지출 정리" />
+    <title>Iberian passage 2026 log — Jormal</title>
+    <link rel="icon" href="../../../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../../../assets/itinerary.css" />
+    <link rel="stylesheet" href="../../../assets/travel-log.css" />
+    <script src="../../../assets/offline.js" defer></script>
+  </head>
+  <body class="journey-page log-page">
+    <header class="journey-header">
+      <a class="journey-logo" href="../../../">JORMAL</a>
+      <nav aria-label="여행 기록 탐색">
+        <ul class="journey-nav">
+          <li><a href="#overview">요약</a></li>
+          <li><a href="#days">기록</a></li>
+          <li><a href="#spending">지출</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="plan-hero" aria-labelledby="log-title">
+        <p class="section-kicker">Iberian passage / travel log</p>
+        <h1 id="log-title">걸어온<br />하루들.</h1>
+        <p>
+          스페인과 포르투갈 15박 16일 여정을 다녀온 순서대로 적습니다. 일정은
+          <a href="../../plan/iberian-passage-2026/">여행 계획</a>과 같은 일차·도시 순서를 따르고, 지출은 그날
+          낸 금액을 적힌 그대로 모읍니다.
+        </p>
+      </section>
+
+      <!--
+        Editing guide: add a day by (1) updating its overview row, (2) adding a .log-day
+        block, (3) adding ledger rows, and (4) updating every data-total value. Each
+        .log-entry[data-amount] and ledger row[data-ledger-amount] is summed by
+        scripts/verify-static-site.mjs and must match the static totals.
+      -->
+
+      <section id="overview" class="section section-light" aria-labelledby="overview-title">
+        <p class="section-kicker">Log / overview</p>
+        <h2 id="overview-title" class="section-title">16일의<br />기록.</h2>
+        <div class="itinerary-summary" aria-label="기록 요약">
+          <div>
+            <span class="table-label">기록한 날</span>
+            <strong>1 / 16일</strong>
+            <small>Day 2 (11/3)까지</small>
+          </div>
+          <div>
+            <span class="table-label">지출 합계</span>
+            <strong data-total="all">€385.14</strong>
+            <small>택스리펀 환급 전 기준</small>
+          </div>
+          <div>
+            <span class="table-label">환급 대상 구매액</span>
+            <strong data-total="refund">€125.10</strong>
+            <small>Arket 가방 · 환급액 미정</small>
+          </div>
+          <div>
+            <span class="table-label">지출 건수</span>
+            <strong>12건</strong>
+            <small>모두 유로(€) 결제</small>
+          </div>
+        </div>
+
+        <table class="log-overview">
+          <caption class="visually-hidden">16일 일차별 기록 요약</caption>
+          <thead>
+            <tr><th scope="col">일차</th><th scope="col">도시</th><th scope="col">기록</th><th scope="col">지출</th></tr>
+          </thead>
+          <tbody>
+            <tr class="city-flight is-empty"><th scope="row">1<small>11/2 월</small></th><td>ICN → Helsinki</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-madrid"><th scope="row">2<small>11/3 화</small></th><td>Helsinki → Madrid<small>Soho Boutique Congreso</small></td><td><a href="#day-2">Allas 사우나 · 대성당 · 올드 마켓 홀 · Arket · Oodi → 마드리드 빠에야</a></td><td data-total="day:2">€385.14</td></tr>
+            <tr class="city-porto is-empty"><th scope="row">3<small>11/4 수</small></th><td>Madrid → Porto</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-porto is-empty"><th scope="row">4<small>11/5 목</small></th><td>Porto</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-porto is-empty"><th scope="row">5<small>11/6 금</small></th><td>Porto</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-lisbon is-empty"><th scope="row">6<small>11/7 토</small></th><td>Porto → Lisbon</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-lisbon is-empty"><th scope="row">7<small>11/8 일</small></th><td>Lisbon</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-sevilla is-empty"><th scope="row">8<small>11/9 월</small></th><td>Lisbon → Sevilla</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-sevilla is-empty"><th scope="row">9<small>11/10 화</small></th><td>Sevilla</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-sevilla is-empty"><th scope="row">10<small>11/11 수</small></th><td>Sevilla</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-granada is-empty"><th scope="row">11<small>11/12 목</small></th><td>Sevilla → Granada</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-barcelona is-empty"><th scope="row">12<small>11/13 금</small></th><td>Granada → Barcelona</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-barcelona is-empty"><th scope="row">13<small>11/14 토</small></th><td>Barcelona</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-barcelona is-empty"><th scope="row">14<small>11/15 일</small></th><td>Barcelona</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-barcelona is-empty"><th scope="row">15<small>11/16 월</small></th><td>Barcelona</td><td>기록 전</td><td>—</td></tr>
+            <tr class="city-flight is-empty"><th scope="row">16<small>11/17 화</small></th><td>Barcelona → ICN</td><td>기록 전</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <p class="log-caption">
+          색 = 그날 밤을 보낸 도시(기내·귀국일은 회색). 지출은 유로(€) 기준이며, 사용자가 적은 금액을 그대로
+          옮겼습니다. 인원 표시가 없는 금액은 실제로 낸 총액입니다.
+        </p>
+      </section>
+
+      <section id="days" class="section section-light" aria-labelledby="days-title">
+        <p class="section-kicker">Log / by day</p>
+        <h2 id="days-title" class="section-title">날짜별<br />기록.</h2>
+        <p class="log-caption">시각은 그날 머문 도시의 현지 시각입니다. ~ 표시는 대략의 시각, — 표시는 시각을 적지 않은 항목입니다.</p>
+
+        <div class="log-days">
+          <details id="day-2" class="log-day city-madrid" data-day="2" open>
+            <summary>
+              <span class="log-day-index">Day 2<small>11/3 화</small></span>
+              <h3 class="log-day-name">Helsinki → Madrid</h3>
+              <span class="log-day-meta">새벽 도착 뒤 헬싱키를 하루 걷고 저녁에 마드리드로 · <span class="nowrap">지출 <strong>€385.14</strong></span></span>
+            </summary>
+            <div class="log-day-body">
+              <div class="log-zone city-helsinki">
+                <h4>Helsinki</h4>
+                <p>현지 시각 · UTC+2</p>
+              </div>
+              <ol class="log-timeline">
+                <li class="log-entry" data-amount="5.40" data-category="food" data-city="helsinki">
+                  <time>04:40</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Helsinki%20Airport">AY042 · 반타 공항 도착</a></h5>
+                    <p>예정보다 조금 일찍 도착. 입국 심사 줄이 없었다. 공항 안 카페에서 따뜻한 라떼 한 잔.</p>
+                  </div>
+                  <div class="log-spend"><strong>€5.40</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry" data-amount="9.00" data-category="transport" data-city="helsinki">
+                  <time>06:20</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Helsinki%20Central%20Station">헬싱키역 도착</a></h5>
+                    <p>HSL에서 ABC 티켓을 사서 헬싱키역으로 이동. 도착이 약 6시 20분.</p>
+                  </div>
+                  <div class="log-spend"><strong>€9.00</strong><span>€4.50 × 2 · 교통</span></div>
+                </li>
+                <li class="log-entry">
+                  <time>06:50</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Allas%20Sea%20Pool%2C%20Helsinki">Allas Sea Pool 도착</a></h5>
+                    <p>트램 5번(환승)을 타고 이동.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="38.00" data-category="activity" data-city="helsinki">
+                  <time datetime="07:00">07:00–<span class="t-end">09:30</span></time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Allas%20Sea%20Pool%2C%20Helsinki">Allas Sea Pool 사우나</a></h5>
+                    <p>7시부터 9시 30분 무렵까지 사우나를 즐겼다.</p>
+                  </div>
+                  <div class="log-spend"><strong>€38.00</strong><span>€19 × 2 · 입장·체험</span></div>
+                </li>
+                <li class="log-entry">
+                  <span class="log-time is-none" aria-label="시각 미기록">—</span>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Helsinki%20Cathedral">광장 → 헬싱키 대성당</a></h5>
+                    <p>앞쪽 광장에 잠깐 들렀다가 헬싱키 대성당으로. 대성당은 잠시 구경.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="14.30" data-category="food" data-city="helsinki">
+                  <time>~10:35</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe%20Engel%2C%20Helsinki">Cafe Engel</a></h5>
+                    <p>추워서 대성당 앞 카페로. 하우스 커피, 펌킨 스파이스 라떼, 크루아상. 다 마시고 나오니 10시 35분.</p>
+                  </div>
+                  <div class="log-spend"><strong>€14.30</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry" data-amount="3.00" data-category="souvenir" data-city="helsinki">
+                  <time>10:42</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Okra%20shop%20Helsinki">Okra shop</a></h5>
+                    <p>카페 옆 가게. 귀여운 곰 엽서를 샀다. 가게 강아지가 귀여워서 쓰다듬어 줬다.</p>
+                  </div>
+                  <div class="log-spend"><strong>€3.00</strong><span>기념품</span></div>
+                </li>
+                <li class="log-entry" data-amount="27.00" data-category="food" data-city="helsinki">
+                  <time>~11:00</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Soup%20%2B%20More%2C%20Old%20Market%20Hall%2C%20Helsinki">올드 마켓 홀 · Soup + More</a></h5>
+                    <p>마사만 치킨 커리 수프와 크리미 연어 수프로 식사.</p>
+                  </div>
+                  <div class="log-spend"><strong>€27.00</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry">
+                  <span class="log-time is-none" aria-label="시각 미기록">—</span>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Embassy%20of%20the%20Republic%20of%20Korea%2C%20Helsinki">한국 대사관 앞 · U26 shop</a></h5>
+                    <p>갑자기 태극기가 보여서 한국 대사관 앞에 들렀다가, U26 shop에서 잠시 구경.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="5.00" data-category="souvenir" data-city="helsinki">
+                  <time>11:51</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Reindeer%20souvenirs%20Helsinki">Reindeer souvenirs shop</a></h5>
+                    <p>바로 앞 기념품 가게에서 마그넷 구매.</p>
+                  </div>
+                  <div class="log-spend"><strong>€5.00</strong><span>기념품</span></div>
+                </li>
+                <li class="log-entry">
+                  <span class="log-time is-none" aria-label="시각 미기록">—</span>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Marimekko%20Esplanadi%2C%20Helsinki">Marimekko Esplanadi</a></h5>
+                    <p>Oodi 도서관 쪽으로 가다가 들렀다. 30% 세일이라 뭔가 살까 고민하다가 그냥 나왔다.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="125.10" data-category="shopping" data-city="helsinki" data-refund="pending">
+                  <time>12:44</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Arket%20Helsinki">Arket</a> <span class="log-tag is-refund">환급 대기</span></h5>
+                    <p>같은 건물. 가방을 10% 할인받고 택스리펀 조건으로 구매.</p>
+                  </div>
+                  <div class="log-spend"><strong>€125.10</strong><span>환급 전 · 쇼핑</span></div>
+                </li>
+                <li class="log-entry">
+                  <span class="log-time is-none" aria-label="시각 미기록">—</span>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Johanna%20Gullichsen%2C%20Helsinki">Johanna Gullichsen</a></h5>
+                    <p>Oodi로 가다가 동선상 먼저 들르는 게 나을 것 같아 방문. 너무 예뻤는데 공간도 없고 비쌌다.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry">
+                  <span class="log-time is-none" aria-label="시각 미기록">—</span>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Oodi%20Helsinki%20Central%20Library">Oodi 도서관</a></h5>
+                    <p>칼바람을 뚫고 찍먹 겸 방문. 화장실이 공용이라 특이했다.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry">
+                  <time>~13:30</time>
+                  <div>
+                    <h5>다시 공항으로</h5>
+                    <p>혹시 늦으면 안 되니 일찍 공항으로 출발.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="19.90" data-category="food" data-city="helsinki">
+                  <time>~14:23</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Helsinki%20Airport">공항 · 치킨 라멘</a></h5>
+                    <p>공항에 너무 일찍 도착해서 아쉬워하며 치킨 라멘.</p>
+                  </div>
+                  <div class="log-spend"><strong>€19.90</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry" data-amount="2.00" data-category="food" data-city="helsinki">
+                  <time>~15:30</time>
+                  <div>
+                    <h5>공항 · 물</h5>
+                    <p>목이 말라서 공항에서 물 한 병.</p>
+                  </div>
+                  <div class="log-spend"><strong>€2.00</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry">
+                  <time>16:40</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Helsinki%20Airport">AY1661 · 헬싱키 → 마드리드</a></h5>
+                    <p>이베리아 공동운항편. 작고 시끄러웠다. 얼간이 승무원이 내 바지에 주스를 흘렸다.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+              </ol>
+
+              <div class="log-zone city-madrid">
+                <h4>Madrid</h4>
+                <p>현지 시각 · UTC+1</p>
+              </div>
+              <ol class="log-timeline">
+                <li class="log-entry">
+                  <time>~19:40</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Adolfo%20Su%C3%A1rez%20Madrid-Barajas%20Airport%20Terminal%204">마드리드 바라하스 T4 도착</a></h5>
+                    <p>스페인 시간으로 7시 40분쯤 도착.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+                <li class="log-entry" data-amount="35.94" data-category="transport" data-city="madrid">
+                  <time>20:20</time>
+                  <div>
+                    <h5>Uber로 숙소 이동</h5>
+                    <p>T4에서 <a href="https://www.google.com/maps/search/?api=1&amp;query=Soho%20Boutique%20Congreso%2C%20Madrid">Soho Boutique Congreso</a>까지. 오는 길에 저녁 먹을 빠에야집을 예약. 숙소에서 짐을 풀고 잠시 쉬었다.</p>
+                  </div>
+                  <div class="log-spend"><strong>€35.94</strong><span>교통</span></div>
+                </li>
+                <li class="log-entry" data-amount="100.50" data-category="food" data-city="madrid">
+                  <time>~22:00</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Arrocer%C3%ADa%20Marina%20Ventura%2C%20Madrid">Arrocería Marina Ventura</a></h5>
+                    <p>국물 빠에야, 꼴뚜기 튀김, 띤또 데 베라노, 화이트와인 2잔. 다 먹고 나니 약간 쫓아내는 기분이라 별로였다.</p>
+                  </div>
+                  <div class="log-spend"><strong>€100.50</strong><span>식비·카페</span></div>
+                </li>
+                <li class="log-entry">
+                  <time>~23:20</time>
+                  <div>
+                    <h5><a href="https://www.google.com/maps/search/?api=1&amp;query=Soho%20Boutique%20Congreso%2C%20Madrid">Soho Boutique Congreso</a> 복귀</h5>
+                    <p>씻고 취침.</p>
+                  </div>
+                  <div class="log-spend is-empty"></div>
+                </li>
+              </ol>
+              <p class="log-day-total"><span>Day 2 지출</span><strong data-total="day:2">€385.14</strong></p>
+            </div>
+          </details>
+        </div>
+        <p class="log-pending">Day 1과 Day 3 이후는 아직 기록 전입니다. 기록이 들어오는 대로 같은 형식으로 이어 붙입니다.</p>
+      </section>
+
+      <section id="spending" class="section section-light" aria-labelledby="spending-title">
+        <p class="section-kicker">Log / spending</p>
+        <h2 id="spending-title" class="section-title">쓴 돈<br />정리.</h2>
+
+        <div class="spend-grid">
+          <div class="spend-block">
+            <h3>분류별</h3>
+            <table class="spend-table">
+              <thead><tr><th scope="col">분류</th><th scope="col" class="num">건수</th><th scope="col" class="num">금액</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">식비·카페<small>공항 라떼·물 포함</small></th><td class="num">6</td><td class="num" data-total="category:food">€169.10</td></tr>
+                <tr><th scope="row">교통<small>HSL 티켓 · 공항–숙소 Uber</small></th><td class="num">2</td><td class="num" data-total="category:transport">€44.94</td></tr>
+                <tr><th scope="row">입장·체험</th><td class="num">1</td><td class="num" data-total="category:activity">€38.00</td></tr>
+                <tr><th scope="row">쇼핑<small>환급 전</small></th><td class="num">1</td><td class="num" data-total="category:shopping">€125.10</td></tr>
+                <tr><th scope="row">기념품</th><td class="num">2</td><td class="num" data-total="category:souvenir">€8.00</td></tr>
+              </tbody>
+              <tfoot><tr><th scope="row">합계</th><td class="num">12</td><td class="num" data-total="all">€385.14</td></tr></tfoot>
+            </table>
+          </div>
+
+          <div class="spend-block">
+            <h3>도시별</h3>
+            <table class="spend-table">
+              <thead><tr><th scope="col">도시</th><th scope="col">기록한 날</th><th scope="col" class="num">금액</th></tr></thead>
+              <tbody>
+                <tr class="city-row city-helsinki"><th scope="row">Helsinki</th><td>Day 2</td><td class="num" data-total="city:helsinki">€248.70</td></tr>
+                <tr class="city-row city-madrid"><th scope="row">Madrid</th><td>Day 2</td><td class="num" data-total="city:madrid">€136.44</td></tr>
+                <tr class="city-row city-porto"><th scope="row">Porto</th><td>기록 전</td><td class="num">—</td></tr>
+                <tr class="city-row city-lisbon"><th scope="row">Lisbon</th><td>기록 전</td><td class="num">—</td></tr>
+                <tr class="city-row city-sevilla"><th scope="row">Sevilla</th><td>기록 전</td><td class="num">—</td></tr>
+                <tr class="city-row city-granada"><th scope="row">Granada</th><td>기록 전</td><td class="num">—</td></tr>
+                <tr class="city-row city-barcelona"><th scope="row">Barcelona</th><td>기록 전</td><td class="num">—</td></tr>
+              </tbody>
+              <tfoot><tr><th scope="row">합계</th><td></td><td class="num" data-total="all">€385.14</td></tr></tfoot>
+            </table>
+          </div>
+        </div>
+        <p class="log-caption">
+          모든 금액은 유로(€)이고 사용자가 적은 금액 그대로입니다(“× 2”는 두 사람 몫). Arket 가방 €125.10은
+          택스리펀 <strong>환급 전</strong> 금액이며 환급은 아직 진행 전이라, 환급액이 확정되면 따로 적습니다.
+          환급 대상 구매(€125.10)를 뺀 나머지 지출은 €260.04이며, 환급 후 실지출이 아닙니다. 공항에서 쓴 금액은 출발 도시에 넣었습니다.
+        </p>
+
+        <details class="spend-ledger">
+          <summary>지출 내역 전체 <span>12건 · 시간순</span></summary>
+          <table class="spend-table">
+            <thead><tr><th scope="col">항목</th><th scope="col" class="num">금액</th><th scope="col">분류</th></tr></thead>
+            <tbody>
+              <tr data-ledger-amount="5.40"><th scope="row">Day 2 · 반타 공항 라떼</th><td class="num">€5.40</td><td>식비·카페</td></tr>
+              <tr data-ledger-amount="9.00"><th scope="row">Day 2 · HSL ABC 티켓 × 2</th><td class="num">€9.00</td><td>교통</td></tr>
+              <tr data-ledger-amount="38.00"><th scope="row">Day 2 · Allas Sea Pool × 2</th><td class="num">€38.00</td><td>입장·체험</td></tr>
+              <tr data-ledger-amount="14.30"><th scope="row">Day 2 · Cafe Engel</th><td class="num">€14.30</td><td>식비·카페</td></tr>
+              <tr data-ledger-amount="3.00"><th scope="row">Day 2 · Okra shop 곰 엽서</th><td class="num">€3.00</td><td>기념품</td></tr>
+              <tr data-ledger-amount="27.00"><th scope="row">Day 2 · Soup + More</th><td class="num">€27.00</td><td>식비·카페</td></tr>
+              <tr data-ledger-amount="5.00"><th scope="row">Day 2 · Reindeer souvenirs 마그넷</th><td class="num">€5.00</td><td>기념품</td></tr>
+              <tr data-ledger-amount="125.10"><th scope="row">Day 2 · Arket 가방 <small>환급 전</small></th><td class="num">€125.10</td><td>쇼핑</td></tr>
+              <tr data-ledger-amount="19.90"><th scope="row">Day 2 · 공항 치킨 라멘</th><td class="num">€19.90</td><td>식비·카페</td></tr>
+              <tr data-ledger-amount="2.00"><th scope="row">Day 2 · 공항 물</th><td class="num">€2.00</td><td>식비·카페</td></tr>
+              <tr data-ledger-amount="35.94"><th scope="row">Day 2 · Uber 공항 → 숙소</th><td class="num">€35.94</td><td>교통</td></tr>
+              <tr data-ledger-amount="100.50"><th scope="row">Day 2 · Arrocería Marina Ventura</th><td class="num">€100.50</td><td>식비·카페</td></tr>
+            </tbody>
+          </table>
+        </details>
+      </section>
+    </main>
+
+    <footer class="journey-footer">
+      <p>Iberian passage / log</p>
+      <a href="../">여행 기록 목록</a>
+    </footer>
+  </body>
+</html>
