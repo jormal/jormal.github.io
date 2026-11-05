@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>리스본→세비야 대안 (임시)</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f6f5ef;
+        --fg: #1f2620;
+        --muted: #5b655c;
+        --line: #c9cdc3;
+        --card: #ffffff;
+        --accent: #2f5d50;
+        --head: #e6e9e0;
+        --warn: #8a3b12;
+        --rec-bg: #e3efe8;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #141714;
+          --fg: #e8ebe5;
+          --muted: #a6afa6;
+          --line: #3a413a;
+          --card: #1c201c;
+          --accent: #8fc7b3;
+          --head: #262b26;
+          --warn: #f0a77d;
+          --rec-bg: #1f3129;
+        }
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+        line-height: 1.6;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      }
+      a { overflow-wrap: anywhere; }
+      main { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+      [hidden] { display: none !important; }
+      h1 { text-wrap: balance; font-size: 1.5rem; line-height: 1.3; margin: 0 0 8px; }
+      h2 { font-size: 1.2rem; margin: 32px 0 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+      h3 { font-size: 1.02rem; margin: 20px 0 6px; }
+      p, li { font-size: 0.95rem; }
+      small { color: var(--muted); }
+      a { color: var(--accent); }
+      table { width: 100%; border-collapse: collapse; margin: 8px 0 4px; background: var(--card); font-size: 0.88rem; table-layout: auto; }
+      th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+      th, td { overflow-wrap: normal; word-break: keep-all; }
+      td a { overflow-wrap: anywhere; }
+      thead th { background: var(--head); color: var(--fg); font-size: 0.8rem; }
+      th[scope="row"] { background: var(--head); font-weight: 600; min-width: 4.5em; }
+      td small { display: block; color: var(--muted); }
+      td ul { margin: 0; padding-left: 1.1em; }
+      td li { font-size: inherit; }
+      ul, ol { padding-left: 1.3em; }
+      tr.rec td, tr.rec th { background: var(--rec-bg); }
+      tr.rec > :first-child { box-shadow: inset 3px 0 0 var(--accent); }
+      p.rec { background: var(--rec-bg); border-left: 3px solid var(--accent); padding: 10px 12px; border-radius: 4px; }
+      .nowrap { white-space: nowrap; }
+      .note { color: var(--muted); font-size: 0.85rem; }
+      .warn { color: var(--warn); }
+      form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+      input, button { font: inherit; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--fg); }
+      button { background: var(--accent); color: var(--bg); border-color: var(--accent); cursor: pointer; }
+      #unlock-status { min-height: 1.4em; color: var(--muted); }
+      #unlock-status:empty { display: none; }
+      @media (max-width: 640px) {
+        table, thead, tbody, tr, th, td { font-size: 0.82rem; }
+        th, td { padding: 5px 6px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>리스본 → 세비야 이동 대안 (임시 비교안)</h1>
+      <p class="note">
+        11/9 야간버스 대신 리스본에서 일찍 출발하는 방법을 비교한 비공개 임시 페이지입니다. 내용은
+        암호화되어 있어 암호를 입력해야 볼 수 있습니다.
+      </p>
+      <noscript>
+        <p class="warn">이 페이지의 내용은 암호화되어 있어 JavaScript가 필요합니다. 브라우저에서 JavaScript를 켜 주세요.</p>
+      </noscript>
+      <form id="unlock-form" autocomplete="off">
+        <label for="passphrase">암호</label>
+        <input id="passphrase" name="passphrase" type="password" inputmode="numeric" required />
+        <button id="unlock-submit" type="submit">열기</button>
+      </form>
+      <p id="unlock-status" role="status" aria-live="polite">
+        암호를 입력하면 내용이 표시됩니다. 표시되지 않으면 페이지를 새로 고치거나 다른 브라우저로 열어 주세요.
+      </p>
+      <div id="protected-content"></div>
+    </main>
+    <script type="module">
+      import { decryptPayload } from '../../info/plan/iberian-passage-2026/crypto.js';
+
+      const form = document.querySelector('#unlock-form');
+      const input = document.querySelector('#passphrase');
+      const button = document.querySelector('#unlock-submit');
+      const status = document.querySelector('#unlock-status');
+      const target = document.querySelector('#protected-content');
+      const allowed = new Set(['A', 'BR', 'EM', 'H2', 'H3', 'LI', 'OL', 'P', 'SECTION', 'SMALL', 'STRONG', 'TABLE', 'TBODY', 'TD', 'TH', 'THEAD', 'TR', 'UL']);
+
+      function sanitize(node) {
+        if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.textContent ?? '');
+        if (node.nodeType !== Node.ELEMENT_NODE) return document.createDocumentFragment();
+        if (!allowed.has(node.tagName)) {
+          const fragment = document.createDocumentFragment();
+          for (const child of node.childNodes) fragment.append(sanitize(child));
+          return fragment;
+        }
+        const element = document.createElement(node.tagName.toLowerCase());
+        if (node.tagName === 'A') {
+          const href = node.getAttribute('href') ?? '';
+          if (/^https:\/\//.test(href)) {
+            element.href = href;
+            element.target = '_blank';
+            element.rel = 'noopener noreferrer';
+          }
+        }
+        if (node.tagName === 'TD' || node.tagName === 'TH') {
+          for (const name of ['colspan', 'rowspan']) {
+            const value = node.getAttribute(name);
+            if (/^[1-9]\d?$/.test(value ?? '')) element.setAttribute(name, value);
+          }
+          if (node.getAttribute('scope') === 'row') element.setAttribute('scope', 'row');
+        }
+        const cls = node.getAttribute('class');
+        if (['note', 'warn', 'rec', 'nowrap'].includes(cls)) element.className = cls;
+        for (const child of node.childNodes) element.append(sanitize(child));
+        return element;
+      }
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        button.disabled = true;
+        status.textContent = '여는 중…';
+        try {
+          const response = await fetch('./data.enc.json', { cache: 'no-store' });
+          if (!response.ok) throw new Error('payload');
+          const html = await decryptPayload(await response.json(), input.value);
+          const parsed = new DOMParser().parseFromString(html, 'text/html');
+          const fragment = document.createDocumentFragment();
+          for (const child of parsed.body.childNodes) fragment.append(sanitize(child));
+          target.replaceChildren(fragment);
+          form.hidden = true;
+          status.textContent = '';
+        } catch {
+          status.textContent = '열 수 없습니다. 암호를 확인해 주세요.';
+        } finally {
+          button.disabled = false;
+          input.value = '';
+        }
+      });
+    </script>
+  </body>
+</html>
