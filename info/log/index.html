@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Jormal의 여행 기록을 계획별로 모아두는 공개 인덱스" />
+    <title>Logs — Jormal</title>
+    <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../../assets/itinerary.css" />
+    <script src="../../assets/offline.js" defer></script>
+  </head>
+  <body class="journey-page">
+    <header class="journey-header">
+      <a class="journey-logo" href="../../">JORMAL</a>
+      <nav aria-label="정보 탐색">
+        <ul class="journey-nav">
+          <li><a href="../">Journey</a></li>
+          <li><a href="../plan/">Plans</a></li>
+          <li><a href="#logs">Logs</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="plan-hero" aria-labelledby="logs-title">
+        <p class="section-kicker">Logs / index</p>
+        <h1 id="logs-title">다녀온<br />기록들.</h1>
+        <p>
+          계획마다 같은 슬러그로 여행 기록을 둡니다. 기록은 공개 페이지라 암호화하지 않으며, 다녀온 순서와
+          쓴 돈을 적습니다. 지난 날의 숙소·항공편은 적되 예약 번호는 넣지 않습니다.
+        </p>
+      </section>
+
+      <section id="logs" class="section section-light" aria-labelledby="logs-list-title">
+        <p class="section-kicker">Travel logs</p>
+        <h2 id="logs-list-title" class="section-title">기록 중인<br />여행.</h2>
+        <ul class="plan-index-list">
+          <li class="plan-index-item">
+            <a class="plan-index-link" href="iberian-passage-2026/">
+              <span class="route-number">01</span>
+              <span class="plan-index-name">스페인·포르투갈</span>
+              <span class="plan-index-meta">2026 / 11월 / 날짜별 기록과 지출 정리</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="journey-footer">
+      <p>Logs / index</p>
+      <a href="../plan/">계획 목록으로</a>
+    </footer>
+  </body>
+</html>

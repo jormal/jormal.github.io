@@ -55,6 +55,11 @@ requirement unless the user explicitly asks for it.
   without a browser. Do not add a package manager or framework merely to add tests.
 - Before declaring work complete, run `node scripts/verify-static-site.mjs`; for visual
   changes, also inspect the affected page in a browser at a representative viewport.
+- After every change to any page (public, encrypted, or under `temp/`), get a design
+  review from a separate agent (a subagent or Codex). Give the reviewer mobile (390px) and
+  desktop screenshots and the changed markup and CSS. Apply the reasonable fixes and
+  repeat until no significant issue remains, so every page stays in its improved
+  state. Summarize the feedback and the changes you made in your report.
 - Record durable project knowledge in `docs/wiki/kb/` and update its index and log under
   the rules in [docs/wiki/README.md](docs/wiki/README.md).
 
